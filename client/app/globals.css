@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+    .errmsg {
+        @apply block text-red-600 text-[12px] font-semibold;
+    }
+}

@@ -1,0 +1,38 @@
+{
+  "name": "next-swr-lib",
+  "version": "1.0.0",
+  "description": "This is trial project where I am using NextJS & SWR Togather for optimistic UI Updates.",
+  "keywords": [
+    "NextJS",
+    "SWR",
+    "TypeScript",
+    "Zustand",
+    "ExpressJS",
+    "MongoDB",
+    "React-Hook-Form",
+    "Zod"
+  ],
+  "private": true,
+  "main": "server.js",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com:gandharthakar/next-swr-lib.git"
+  },
+  "author": "Gandhar Thakar",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/gandharthakar/next-swr-lib/issues"
+  },
+  "homepage": "https://github.com/gandharthakar/next-swr-lib#readme",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "mongoose": "^8.7.2",
+    "nodemon": "^3.1.7"
+  }
+}
