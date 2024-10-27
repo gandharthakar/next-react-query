@@ -1,10 +1,10 @@
-# NextJS With TenStack Query (React Query) library - Trial
+# NextJS With TanStack Query (React Query) library - Trial
 
-This is trial project of CRUD Operation using NextJS with "TenStack Query" (React Query). 
+This is trial project of CRUD Operation using NextJS with "TanStack Query" (React Query). 
 
 ### Screenshot
 
-<img src="" alt="Project Screenshot" />
+<img src="https://raw.githubusercontent.com/gandharthakar/next-react-query/refs/heads/main/client/public/images/screenshot.png" alt="Project Screenshot" />
 
 ### Major Technologies Used
 
@@ -17,7 +17,7 @@ This is trial project of CRUD Operation using NextJS with "TenStack Query" (Reac
     &nbsp;
     <img src="https://lh3.googleusercontent.com/u/0/d/1xzrIp7aTMw6APEeNmEFhxG5vWpjGEHgb=w1920-h953-iv1" width="80px" height="80px" alt="NextJS" />
     &nbsp;
-    <img src="https://lh3.googleusercontent.com/u/0/d/1zl75JX-tMdWX9zEzscpluPFGEKteOFCB=w1920-h847-iv1" width="80px" height="80px" alt="TenStack Query" />
+    <img src="https://lh3.googleusercontent.com/u/0/d/1zl75JX-tMdWX9zEzscpluPFGEKteOFCB=w1920-h847-iv1" width="80px" height="80px" alt="TanStack Query (React Query)" />
     &nbsp;
     <img src="https://lh3.googleusercontent.com/u/0/d/1rbgc32lID9dkG7LXk014YI_a_Gy2joSK=w1920-h847-iv1" width="80px" height="80px" alt="Axios" />
     &nbsp;

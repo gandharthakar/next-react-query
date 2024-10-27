@@ -55,13 +55,73 @@ app.post('/create-user', async (req, res) => {
 
 app.get('/get-users', async (req, res) => {
     let resp = {
-        success: true,
-        message: "Users Found"
+        success: false,
+        message: ""
     }
     let sts = 200;
-    let data = await UserModel.find().select(['user_full_name', 'user_gender']);
-    let main_resp = { ...resp, users: data };
-    res.status(sts).send(main_resp);
+
+    // Pagination Stuff.
+    const ep = req.query.enpg || false;
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit);
+    const startIndex = (page - 1) * limit;
+    // const endIndex = page * limit;
+    const totalDocuments = await UserModel.countDocuments();
+
+    if (ep && ep == "true") {
+        if ((page && !limit) || (!page && limit)) {
+            resp = {
+                success: false,
+                message: "Missing required query parameters."
+            }
+            sts = 200;
+            res.status(sts).send(resp);
+        } else {
+            resp = {
+                success: true,
+                message: "Users Found"
+            }
+            sts = 200;
+            let data = await UserModel.find().select(['user_full_name', 'user_gender'])
+                .skip(startIndex)
+                .limit(limit || 5)
+                .exec()
+                .then(docs => {
+                    return docs.map((doc) => {
+                        return {
+                            id: doc._id,
+                            user_full_name: doc.user_full_name,
+                            user_gender: doc.user_gender
+                        }
+                    })
+                }).catch(err => {
+                    console.error(err);
+                });
+            let main_resp = { ...resp, users: data, totalPages: Math.ceil(totalDocuments / limit), currentPage: page };
+            res.status(sts).send(main_resp);
+        }
+    } else {
+        resp = {
+            success: true,
+            message: "Users Found"
+        }
+        sts = 200;
+        let data = await UserModel.find().select(['user_full_name', 'user_gender'])
+            .exec()
+            .then(docs => {
+                return docs.map((doc) => {
+                    return {
+                        id: doc._id,
+                        user_full_name: doc.user_full_name,
+                        user_gender: doc.user_gender
+                    }
+                })
+            }).catch(err => {
+                console.error(err);
+            });
+        let main_resp = { ...resp, users: data };
+        res.status(sts).send(main_resp);
+    }
 });
 
 app.put('/update-user', async (req, res) => {

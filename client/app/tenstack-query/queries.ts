@@ -1,6 +1,18 @@
 
-import { UserGetAPIResp, SWRCBtype } from "../types/componentsInterfacesTypes";
+import { useQuery } from "@tanstack/react-query";
+import { getUsers } from "./api";
+import { PaginationConfig } from "../types/componentsInterfacesTypes";
 
-export const useGetUsers = (cb?: SWRCBtype) => {
+const defConfig = {
+    refetchOnWindowFocus: false,
+    staleTime: 2 * (60 * 1000),
+    gcTime: 2 * (60 * 1000),
+}
 
+export const useGetUsers = (pgconf?: PaginationConfig) => {
+    return useQuery({
+        queryKey: ["getUsers"],
+        queryFn: () => getUsers(pgconf),
+        ...defConfig
+    })
 }

@@ -1,5 +1,6 @@
 'use client';
 
+import { useDeleteUser } from "../tenstack-query/mutations";
 import { UserCompType } from "../types/componentsInterfacesTypes";
 import { useEditUserStore } from "../zustand/store";
 
@@ -18,7 +19,7 @@ const UserList = (props: UserCompType) => {
     const setPayload = useEditUserStore((state) => state.setData);
     const isOpen = useEditUserStore((state) => state.toggleOpenState);
 
-
+    const { mutate } = useDeleteUser({ successCB: a, errorCB: b, onErrorCB: c });
 
     const handleEdit = () => {
         setPayload({ user_id, user_name, user_gender, user_gender_val });
@@ -26,7 +27,10 @@ const UserList = (props: UserCompType) => {
     }
 
     const handleDelete = () => {
-        trigger({ user_id: user_id })
+        const conf = confirm("Are you sure want to delete this user ?");
+        if (conf) {
+            mutate(user_id);
+        }
     }
 
     return (
@@ -57,7 +61,7 @@ const UserList = (props: UserCompType) => {
                         className="text-[12px] md:text-[14px] font-semibold text-red-600"
                         onClick={handleDelete}
                     >
-                        {isMutating ? 'deleting...' : 'Delete'}
+                        Delete
                     </button>
                 </div>
             </div>

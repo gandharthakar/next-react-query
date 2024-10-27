@@ -3,6 +3,7 @@
 import { useForm, SubmitHandler } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useCreateUser } from "../tenstack-query/mutations";
 
 const CreateUserForm = () => {
     const a = () => {
@@ -15,7 +16,7 @@ const CreateUserForm = () => {
         console.log('oerr--mut');
     }
 
-
+    const { mutate, isPending } = useCreateUser({ successCB: a, errorCB: b, onErrorCB: c });
 
     const validationSchema = z.object({
         user_full_name: z.string({
@@ -36,7 +37,10 @@ const CreateUserForm = () => {
     });
 
     const handleFormSubmit: SubmitHandler<validationSchema> = async (formData) => {
-
+        mutate({
+            user_full_name: formData.user_full_name,
+            user_gender: formData.user_gender
+        });
         reset();
     }
 
@@ -83,10 +87,11 @@ const CreateUserForm = () => {
                 <div className="text-right">
                     <button
                         type="submit"
-                        title="Create User"
-                        className="inline-block text-[14px] font-semibold border-[1px] py-[7px] px-[15px] border-solid border-zinc-800 focus:outline-0 bg-zinc-800 text-zinc-200"
+                        title={isPending ? 'Creating...' : 'Create User'}
+                        className="inline-block text-[14px] font-semibold border-[1px] py-[7px] px-[15px] border-solid border-zinc-800 focus:outline-0 bg-zinc-800 text-zinc-200 disabled:bg-zinc-400 disabled:border-zinc-400 disabled:pointer-events-none"
+                        disabled={isPending}
                     >
-                        {isMutating ? 'Updating...' : 'Create User'}
+                        {isPending ? 'Creating...' : 'Create User'}
                     </button>
                 </div>
             </form>

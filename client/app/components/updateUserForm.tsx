@@ -6,6 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { UserCompType } from "../types/componentsInterfacesTypes";
 import { useEffect } from "react";
 import { useEditUserStore } from "../zustand/store";
+import { useUpdateUser } from "../tenstack-query/mutations";
 
 const UpdateUserForm = (props: UserCompType) => {
     const a = () => {
@@ -23,7 +24,7 @@ const UpdateUserForm = (props: UserCompType) => {
     const isOpen = useEditUserStore((state) => state.toggleOpenState);
     const setPayload = useEditUserStore((state) => state.setData);
 
-
+    const { mutate, isPending } = useUpdateUser({ successCB: a, errorCB: b, onErrorCB: c });
 
     const validationSchema = z.object({
         user_full_name: z.string({
@@ -51,7 +52,11 @@ const UpdateUserForm = (props: UserCompType) => {
     }
 
     const handleFormSubmit: SubmitHandler<validationSchema> = (formData) => {
-
+        mutate({
+            user_id,
+            user_full_name: formData.user_full_name,
+            user_gender: formData.user_gender
+        });
         handleClose();
     }
 
@@ -117,10 +122,11 @@ const UpdateUserForm = (props: UserCompType) => {
                         <div className="text-right">
                             <button
                                 type="submit"
-                                title="Create User"
-                                className="inline-block text-[14px] font-semibold border-[1px] py-[7px] px-[15px] border-solid border-zinc-800 focus:outline-0 bg-zinc-800 text-zinc-200"
+                                title={isPending ? 'Updating...' : 'Update User'}
+                                className="inline-block text-[14px] font-semibold border-[1px] py-[7px] px-[15px] border-solid border-zinc-800 focus:outline-0 bg-zinc-800 text-zinc-200 disabled:bg-zinc-400 disabled:border-zinc-400 disabled:pointer-events-none"
+                                disabled={isPending}
                             >
-                                {isMutating ? 'Creating...' : 'Update User'}
+                                {isPending ? 'Updating...' : 'Update User'}
                             </button>
                         </div>
                     </form>

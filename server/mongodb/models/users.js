@@ -10,7 +10,9 @@ const usersSchema = new Schema({
     user_gender: {
         type: String,
         required: true
-    }
+    },
+}, {
+    timestamps: true
 });
 
 const UserModel = models.users || model('users', usersSchema);

@@ -4,6 +4,8 @@ import CreateUserForm from "./components/createUserForm";
 import UserList from "./components/userList";
 import HomePager from "./pagers/homePager";
 import Link from "next/link";
+import { useGetUsers } from "./tenstack-query/queries";
+import { useEffect } from "react";
 
 function capitalizeFirstLetter(string: string) {
 	return string.charAt(0).toUpperCase() + string.slice(1);
@@ -20,7 +22,20 @@ const Page = () => {
 		console.log('oerr--query');
 	}
 
+	const { data, status, isFetching, isError, isLoading } = useGetUsers({ enpg: true, pageIndex: 1, limit: 2 });
 
+	useEffect(() => {
+		if (data?.success) {
+			a();
+		} else {
+			b();
+		}
+
+		if (status == 'error') {
+			c();
+		}
+		//eslint-disable-next-line
+	}, [data]);
 
 	return (
 		<>
@@ -40,9 +55,9 @@ const Page = () => {
 					</div>
 				</div>
 				<div className="w-full mda-1:flex-1">
-					{/* {isLoading && (<div className="p-[20px]">
-						{error && (<div className="text-[14px] font-semibold text-red-600">There was an error.</div>)}
-						{isValidating && (<div className="text-[14px] font-semibold text-zinc-800">Revalidating ...</div>)}
+					{isLoading && (<div className="p-[20px]">
+						{isError && (<div className="text-[14px] font-semibold text-red-600">There was an error.</div>)}
+						{isFetching && (<div className="text-[14px] font-semibold text-zinc-800">Fetching ...</div>)}
 						<div className="text-[14px] font-semibold text-zinc-800">Loading ...</div>
 					</div>)}
 
@@ -53,8 +68,8 @@ const Page = () => {
 									{
 										data?.users.map((item: any) => (
 											<UserList
-												key={item._id}
-												user_id={item._id}
+												key={item.id}
+												user_id={item.id}
 												user_name={item.user_full_name}
 												user_gender={capitalizeFirstLetter(item.user_gender)}
 												user_gender_val={item.user_gender}
@@ -65,13 +80,7 @@ const Page = () => {
 							)
 							:
 							(<div className="p-[20px]"><div className="text-[14px] font-semibold text-zinc-800">No Use Found.</div></div>)
-					} */}
-					<UserList
-						user_id={"1"}
-						user_name={"Amit Thakit"}
-						user_gender={capitalizeFirstLetter("male")}
-						user_gender_val={"male"}
-					/>
+					}
 				</div>
 			</div>
 		</>
