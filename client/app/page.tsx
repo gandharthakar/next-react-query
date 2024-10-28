@@ -71,6 +71,7 @@ const Page = () => {
 		if (status == 'error') {
 			c();
 		}
+
 		//eslint-disable-next-line
 	}, [data]);
 
@@ -122,7 +123,7 @@ const Page = () => {
 					</div>
 
 					{
-						enablePagination &&
+						(enablePagination && (data?.totalPages ? data?.totalPages : 0) > 1) &&
 						(
 							<div className="flex p-[20px] items-center justify-center gap-x-[20px]">
 								<button
@@ -141,7 +142,7 @@ const Page = () => {
 									type="button"
 									title="Next"
 									className="inline-block text-[14px] font-semibold border-[1px] py-[7px] px-[15px] border-solid border-zinc-800 focus:outline-0 bg-zinc-800 text-zinc-200 disabled:bg-zinc-400 disabled:border-zinc-400 disabled:pointer-events-none"
-									disabled={disNext && isPlaceholderData}
+									disabled={disNext}
 									onClick={handleNext}
 								>
 									Next
