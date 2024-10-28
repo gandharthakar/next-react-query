@@ -8,7 +8,7 @@ demo_api_mdb();
 const port = process.env.PORT || 4825;
 const app = express();
 app.use(cors({
-    origin: ["http://localhost:4825", "http://localhost:3000"],
+    origin: ["http://localhost:4825", "http://localhost:3000", "https://next-react-query.onrender.com", "https://next-react-query-eta.vercel.app"],
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE"]
 }));
 app.use(express.json());

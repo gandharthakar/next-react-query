@@ -6,6 +6,10 @@ This is trial project of CRUD Operation using NextJS with "TanStack Query" (Reac
 
 <img src="https://raw.githubusercontent.com/gandharthakar/next-react-query/refs/heads/main/client/public/images/screenshot.png" alt="Project Screenshot" />
 
+### Project Demo / View Link
+
+Here is the link --> <a href="https://next-react-query-eta.vercel.app/" title="Click Here" target="_blank">Click Here</a>
+
 ### Major Technologies Used
 
 <p>
