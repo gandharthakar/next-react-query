@@ -1,5 +1,5 @@
 
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, keepPreviousData } from "@tanstack/react-query";
 import { getUsers } from "./api";
 import { PaginationConfig } from "../types/componentsInterfacesTypes";
 
@@ -11,8 +11,9 @@ const defConfig = {
 
 export const useGetUsers = (pgconf?: PaginationConfig) => {
     return useQuery({
-        queryKey: ["getUsers"],
+        queryKey: ["getUsers", pgconf],
         queryFn: () => getUsers(pgconf),
-        ...defConfig
+        ...defConfig,
+        placeholderData: keepPreviousData,
     })
 }

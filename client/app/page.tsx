@@ -5,24 +5,59 @@ import UserList from "./components/userList";
 import HomePager from "./pagers/homePager";
 import Link from "next/link";
 import { useGetUsers } from "./tenstack-query/queries";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 function capitalizeFirstLetter(string: string) {
 	return string.charAt(0).toUpperCase() + string.slice(1);
 }
+
+let page = 1;
 
 const Page = () => {
 	const a = () => {
 		console.log('suc--query');
 	}
 	const b = () => {
-		console.log('err--query');
+		// console.log('err--query');
 	}
 	const c = () => {
-		console.log('oerr--query');
+		// console.log('oerr--query');
 	}
 
-	const { data, status, isFetching, isError, isLoading } = useGetUsers({ enpg: true, pageIndex: 1, limit: 2 });
+	const enablePagination: boolean = true;
+	const [pageNum, setPageNum] = useState<number>(page);
+	const [disPrev, setDisPrev] = useState<boolean>(true);
+	const [disNext, setDisNext] = useState<boolean>(false);
+
+	const { data, status, isFetching, isError, isLoading, isPlaceholderData } = useGetUsers({ enpg: enablePagination, pageIndex: page, limit: 2 });
+
+	const handlePrev = () => {
+		page--;
+		setPageNum(page);
+		let isFirst = page > 1;
+		if (!isFirst) {
+			setDisPrev(true);
+			setDisNext(false);
+		} else {
+			setDisPrev(false);
+			setDisNext(false);
+		}
+	}
+
+	const handleNext = () => {
+		if (!isPlaceholderData) {
+			page++;
+			setPageNum(page);
+			const isLast = page < data?.totalPages!;
+			if (!isLast) {
+				setDisPrev(false);
+				setDisNext(true);
+			} else {
+				setDisPrev(false);
+				setDisNext(false);
+			}
+		}
+	}
 
 	useEffect(() => {
 		if (data?.success) {
@@ -61,25 +96,56 @@ const Page = () => {
 						<div className="text-[14px] font-semibold text-zinc-800">Loading ...</div>
 					</div>)}
 
+					<div>
+						{
+							data?.users.length ?
+								(
+									<>
+										{
+											data?.users.map((item: any) => (
+												<UserList
+													key={item.id}
+													user_id={item.id}
+													user_name={item.user_full_name}
+													user_gender={capitalizeFirstLetter(item.user_gender)}
+													user_gender_val={item.user_gender}
+												/>
+											))
+										}
+									</>
+								)
+								:
+								(<div className="p-[20px]"><div className="text-[14px] font-semibold text-zinc-800">No Use Found.</div></div>)
+						}
+					</div>
+
 					{
-						data?.users.length ?
-							(
-								<>
-									{
-										data?.users.map((item: any) => (
-											<UserList
-												key={item.id}
-												user_id={item.id}
-												user_name={item.user_full_name}
-												user_gender={capitalizeFirstLetter(item.user_gender)}
-												user_gender_val={item.user_gender}
-											/>
-										))
-									}
-								</>
-							)
-							:
-							(<div className="p-[20px]"><div className="text-[14px] font-semibold text-zinc-800">No Use Found.</div></div>)
+						enablePagination &&
+						(
+							<div className="flex p-[20px] items-center justify-center gap-x-[20px]">
+								<button
+									type="button"
+									title="Prev"
+									className="inline-block text-[14px] font-semibold border-[1px] py-[7px] px-[15px] border-solid border-zinc-800 focus:outline-0 bg-zinc-800 text-zinc-200 disabled:bg-zinc-400 disabled:border-zinc-400 disabled:pointer-events-none"
+									disabled={disPrev}
+									onClick={handlePrev}
+								>
+									Prev
+								</button>
+								<div className="inline-block text-[16px] text-zinc-800 font-semibold">
+									{pageNum}
+								</div>
+								<button
+									type="button"
+									title="Next"
+									className="inline-block text-[14px] font-semibold border-[1px] py-[7px] px-[15px] border-solid border-zinc-800 focus:outline-0 bg-zinc-800 text-zinc-200 disabled:bg-zinc-400 disabled:border-zinc-400 disabled:pointer-events-none"
+									disabled={disNext}
+									onClick={handleNext}
+								>
+									Next
+								</button>
+							</div>
+						)
 					}
 				</div>
 			</div>

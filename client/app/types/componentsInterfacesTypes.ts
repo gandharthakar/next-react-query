@@ -36,7 +36,9 @@ export type UserAPIResp = {
 }
 
 export type UserGetAPIResp = {
-    users: UserAPIResp[]
+    users: UserAPIResp[],
+    totalPages?: number,
+    currentPage?: number
 } & APIRespCommonTypeA
 
 export interface SWRCBtype {
