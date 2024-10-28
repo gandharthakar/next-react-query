@@ -26,7 +26,8 @@
   "homepage": "https://github.com/gandharthakar/next-swr-lib#readme",
   "scripts": {
     "start": "node server.js",
-    "dev": "nodemon server.js"
+    "dev": "nodemon server.js",
+    "build": "npm install"
   },
   "dependencies": {
     "cors": "^2.8.5",

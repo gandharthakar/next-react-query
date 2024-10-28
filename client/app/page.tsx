@@ -18,10 +18,10 @@ const Page = () => {
 		console.log('suc--query');
 	}
 	const b = () => {
-		// console.log('err--query');
+		console.log('err--query');
 	}
 	const c = () => {
-		// console.log('oerr--query');
+		console.log('oerr--query');
 	}
 
 	const enablePagination: boolean = true;
@@ -34,7 +34,7 @@ const Page = () => {
 	const handlePrev = () => {
 		page--;
 		setPageNum(page);
-		let isFirst = page > 1;
+		const isFirst = page > 1;
 		if (!isFirst) {
 			setDisPrev(true);
 			setDisNext(false);
@@ -48,13 +48,15 @@ const Page = () => {
 		if (!isPlaceholderData) {
 			page++;
 			setPageNum(page);
-			const isLast = page < data?.totalPages!;
-			if (!isLast) {
-				setDisPrev(false);
-				setDisNext(true);
-			} else {
-				setDisPrev(false);
-				setDisNext(false);
+			if (data?.totalPages) {
+				const isLast = page < data?.totalPages;
+				if (!isLast) {
+					setDisPrev(false);
+					setDisNext(true);
+				} else {
+					setDisPrev(false);
+					setDisNext(false);
+				}
 			}
 		}
 	}
@@ -139,7 +141,7 @@ const Page = () => {
 									type="button"
 									title="Next"
 									className="inline-block text-[14px] font-semibold border-[1px] py-[7px] px-[15px] border-solid border-zinc-800 focus:outline-0 bg-zinc-800 text-zinc-200 disabled:bg-zinc-400 disabled:border-zinc-400 disabled:pointer-events-none"
-									disabled={disNext}
+									disabled={disNext && isPlaceholderData}
 									onClick={handleNext}
 								>
 									Next

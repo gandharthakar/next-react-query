@@ -4,7 +4,7 @@ require('dotenv').config();
 const { DATABASE_URI_LOCAL, DATABASE_URI_ATLAS } = process.env;
 
 const demo_api_mdb = async () => {
-    mongoose.connect(DATABASE_URI_LOCAL)
+    mongoose.connect(DATABASE_URI_ATLAS)
         .then(console.log('Database Connected Successfully.'))
         .catch((err) => console.log(err));
 };
